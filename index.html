@@ -1,8 +1,44 @@
-<!DOCETYPE hmtl>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <title>Spline Viewer with Persistent Camera</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%; overflow: hidden;
+    }
+    #canvas {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+  </style>
 </head>
 <body>
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.53/build/spline-viewer.js"></script>
-<spline-viewer url="https://prod.spline.design/b-CkmtrxUsywhHMy/scene.splinecode"></spline-viewer>
+  <canvas id="canvas"></canvas>
+
+  <script type="module">
+    import { Application } from 'https://cdn.skypack.dev/@splinetool/runtime';
+
+    const canvas = document.getElementById('canvas');
+    const app = new Application(canvas);
+
+    const sceneUrl = 'https://prod.spline.design/b-CkmtrxUsywhHMy/scene.splinecode';
+
+    // Load scene
+    app.load(sceneUrl).then(() => {
+      // Restore camera rotation from localStorage if exists
+      const savedRotation = localStorage.getItem('cameraRotation');
+      if (savedRotation) {
+        const rotation = JSON.parse(savedRotation);
+        app.camera.rotation.set(rotation.x, rotation.y, rotation.z);
+      }
+
+      app.on('update', () => {
+        const rot = app.camera.rotation;
+        localStorage.setItem('cameraRotation', JSON.stringify({ x: rot.x, y: rot.y, z: rot.z }));
+      });
+    });
+  </script>
 </body>
 </html>
