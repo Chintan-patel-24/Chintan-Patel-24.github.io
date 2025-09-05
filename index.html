@@ -6,16 +6,46 @@
   <style>
     body, html {
       margin: 0; padding: 0; height: 100%; overflow: hidden;
+      position: relative;
     }
     #canvas {
       width: 100vw;
       height: 100vh;
       display: block;
     }
+    /* Container for watermark and box */
+    #watermark-container {
+      position: absolute;
+      top: 20px; /* adjust vertical position */
+      right: 20px; /* adjust horizontal position */
+      pointer-events: none; /* so it doesn't block mouse */
+      user-select: none;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.3); /* watermark text color */
+      z-index: 1000;
+    }
+    /* Colored box behind watermark */
+    #watermark-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 120px; /* adjust width */
+      height: 30px; /* adjust height */
+      background-color: rgba(255, 255, 255, 0.8); /* same color as background or desired */
+      border: none; /* no outline */
+      z-index: -1; /* behind watermark text */
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
+
+  <div id="watermark-container">
+    <div id="watermark-box"></div>
+    Watermark Text
+  </div>
 
   <script type="module">
     import { Application } from 'https://cdn.skypack.dev/@splinetool/runtime';
@@ -23,6 +53,7 @@
     const canvas = document.getElementById('canvas');
     const app = new Application(canvas);
 
+    // Load your own Spline scene URL here (exported from Spline)
     const sceneUrl = 'https://prod.spline.design/b-CkmtrxUsywhHMy/scene.splinecode';
 
     // Load scene
@@ -34,6 +65,7 @@
         app.camera.rotation.set(rotation.x, rotation.y, rotation.z);
       }
 
+      // Save camera rotation on every frame
       app.on('update', () => {
         const rot = app.camera.rotation;
         localStorage.setItem('cameraRotation', JSON.stringify({ x: rot.x, y: rot.y, z: rot.z }));
@@ -41,4 +73,3 @@
     });
   </script>
 </body>
-</html>
