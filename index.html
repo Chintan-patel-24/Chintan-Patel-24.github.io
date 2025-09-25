@@ -12,55 +12,39 @@
       height: 100vh;
       display: block;
     }
-   
+
     #watermark-container {
       position: absolute;
-      top: 20px; 
+      top: 20px;
       right: 20px;
-      pointer-events: none; 
+      pointer-events: none;
       user-select: none;
       font-family: Arial, sans-serif;
       font-size: 16px;
-      color: rgba(0, 0, 0, 0.3); 
+      color: rgba(0, 0, 0, 0.3);
       z-index: 1000;
-    }
-    #watermark-box {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 120px; 
-      height: 30px; 
-      background-color: rgba(255, 255, 255, 0.8); 
-      border: none; 
-      z-index: -1; 
-      pointer-events: none;
+      /* Remove the background box */
+      background-color: transparent;
     }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
-
   <div id="watermark-container">
-    <div id="watermark-box"></div>
     Watermark Text
   </div>
-
   <script type="module">
     import { Application } from 'https://cdn.skypack.dev/@splinetool/runtime';
-
     const canvas = document.getElementById('canvas');
     const app = new Application(canvas);
 
-  
     const sceneUrl = 'https://prod.spline.design/b-CkmtrxUsywhHMy/scene.splinecode';
-
     app.load(sceneUrl).then(() => {
       const savedRotation = localStorage.getItem('cameraRotation');
       if (savedRotation) {
         const rotation = JSON.parse(savedRotation);
         app.camera.rotation.set(rotation.x, rotation.y, rotation.z);
       }
-
       app.on('update', () => {
         const rot = app.camera.rotation;
         localStorage.setItem('cameraRotation', JSON.stringify({ x: rot.x, y: rot.y, z: rot.z }));
@@ -68,6 +52,4 @@
     });
   </script>
 </body>
-
-
-
+</html>
