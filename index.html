@@ -23,14 +23,17 @@
       font-size: 16px;
       color: rgba(0, 0, 0, 0.3);
       z-index: 1000;
-      /* Remove the background box */
-      background-color: transparent;
+    }
+    #watermark-box {
+      /* Hide the white rectangle */
+      display: none;
     }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
   <div id="watermark-container">
+    <div id="watermark-box"></div>
     Watermark Text
   </div>
   <script type="module">
@@ -53,3 +56,4 @@
   </script>
 </body>
 </html>
+
