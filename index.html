@@ -4,13 +4,11 @@
   <meta charset="UTF-8" />
   <style>
     body, html {
-      margin: 0; padding: 0; height: 100%; overflow: hidden;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
       position: relative;
-    }
-    #canvas {
-      width: 100vw;
-      height: 100vh;
-      display: block;
     }
 
     #watermark-container {
@@ -24,36 +22,12 @@
       color: rgba(0, 0, 0, 0.3);
       z-index: 1000;
     }
-    #watermark-box {
-      /* Hide the white rectangle */
-      display: none;
-    }
   </style>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
+  <!-- Only the watermark remains -->
   <div id="watermark-container">
-    <div id="watermark-box"></div>
     Watermark Text
   </div>
-  <script type="module">
-    import { Application } from 'https://cdn.skypack.dev/@splinetool/runtime';
-    const canvas = document.getElementById('canvas');
-    const app = new Application(canvas);
-
-    const sceneUrl = 'https://prod.spline.design/b-CkmtrxUsywhHMy/scene.splinecode';
-    app.load(sceneUrl).then(() => {
-      const savedRotation = localStorage.getItem('cameraRotation');
-      if (savedRotation) {
-        const rotation = JSON.parse(savedRotation);
-        app.camera.rotation.set(rotation.x, rotation.y, rotation.z);
-      }
-      app.on('update', () => {
-        const rot = app.camera.rotation;
-        localStorage.setItem('cameraRotation', JSON.stringify({ x: rot.x, y: rot.y, z: rot.z }));
-      });
-    });
-  </script>
 </body>
 </html>
-
