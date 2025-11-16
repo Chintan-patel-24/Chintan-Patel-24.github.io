@@ -466,7 +466,6 @@ footer p {
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Increases shadow */
 }
 
-
 .color-on-hover {
   /*filter: grayscale(100%); /* Makes the image black and white */
   transition: filter 0.5s ease, transform 0.5s ease; /* Smooth transition for both filter and transform */
